@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RegisterLoginAPI.Models;
 using System.Threading.Tasks;
+using BCrypt.Net;
 
 namespace RegisterLoginAPI.Controllers
 {
@@ -27,11 +28,26 @@ namespace RegisterLoginAPI.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return Ok(new { message = "Registration successful" });
+                    return Ok(new
+                    {
+                        status = 200,
+                        message = "Registration successful",
+                        data = new
+                        {
+                            name = model.Name,
+                            email = model.Email
+                        }
+                    });
                 }
-                return BadRequest(result.Errors);
+                return BadRequest(new { status = 400, message = "Registration failed", errors = result.Errors });
             }
-            return BadRequest("Invalid data");
+            return BadRequest(new { status = 400, message = "Invalid data" });
+        }
+
+        private string HashPassword(string password)
+        {
+            // Sử dụng BCrypt để băm mật khẩu
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
         [HttpPost("login")]
@@ -42,11 +58,21 @@ namespace RegisterLoginAPI.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
                 if (result.Succeeded)
                 {
-                    return Ok(new { message = "Login successful" });
+                    var hashedPassword = HashPassword(model.Password);
+                    return Ok(new
+                    {
+                        status = 200,
+                        message = "Login successful",
+                        data = new
+                        {
+                            email = model.Email,
+                            password = hashedPassword
+                        }
+                    });
                 }
-                return BadRequest("Invalid login attempt");
+                return BadRequest(new { status = 400, message = "Invalid login attempt" });
             }
-            return BadRequest("Invalid data");
+            return BadRequest(new { status = 400, message = "Invalid data" });
         }
     }
 }

@@ -55,11 +55,11 @@ export default {
 </script>
 
 <style>
-body {
+/* body {
   background: linear-gradient(to bottom right, #0081A7, #00AFB9);
   font-family: 'Arial', sans-serif;
   color: #333;
-}
+} */
 
 .register {
   width: 100%;
