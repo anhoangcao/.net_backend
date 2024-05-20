@@ -1,5 +1,8 @@
 <template>
   <div class="register">
+    <div class="close-button">
+      × 
+    </div>
     <h2>Register</h2>
     <form @submit.prevent="register">
       <input v-model="name" type="text" placeholder="Name" required>
@@ -8,8 +11,9 @@
       <input v-model="confirmPassword" type="password" placeholder="Confirm password" required>
       <button type="submit">Register</button>
     </form>
+    <div class="separator"></div>
     <p class="login-prompt">
-      Already have an account? <a href="/login">Login</a>
+      Don't have an account? <a href="/login">Login</a>
     </p>
   </div>
 </template>
@@ -55,36 +59,55 @@ export default {
 </script>
 
 <style>
-/* body {
-  background: linear-gradient(to bottom right, #0081A7, #00AFB9);
-  font-family: 'Arial', sans-serif;
-  color: #333;
-} */
 
 .register {
   width: 100%;
-  max-width: 340px;
-  margin: 74px auto;
-  padding: 2em;
+  max-width: 310px;
+  margin: 71px auto;
+  padding: 2em 2em 1em 2em;
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
+  border-radius: 5px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   text-align: center;
+  position: relative;
+}
+
+.register .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  text-align: center;
+  line-height: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.register .close-button:hover {
+  background-color: #e0e0e0;
 }
 
 .register h2 {
   margin-bottom: 1.5em;
   color: #333;
-  font-size: 24px;
+  font-size: 28px;
 }
 
 .register input {
-  width: calc(100% - 20px);
-  padding: 10px;
+  width: calc(100% - 25px);
+  padding: 12px;
   margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .register input:focus {
@@ -94,13 +117,13 @@ export default {
 
 .register button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-top: 1em;
   border: none;
   border-radius: 2px;
   background: linear-gradient(to bottom right, #0081A7, #00AFB9);
   color: white;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease-in-out;
@@ -110,8 +133,25 @@ export default {
   background: linear-gradient(to bottom right, #007099, #0098A6);
 }
 
+.separator {
+  margin-top: 2em;
+  color: #333;
+  position: relative;
+}
+
+.separator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  right: -10%;
+  border-top: 1px solid #ddd;
+  z-index: 1;
+  max-width: 372px;
+}
+
 .login-prompt {
-  margin-top: 1em;
+  padding-top: 1.5em;
   font-size: 14px;
   color: #333;
 }
