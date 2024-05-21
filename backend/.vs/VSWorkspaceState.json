@@ -7,6 +7,6 @@
     "\\RegisterLoginAPI\\Models",
     "\\RegisterLoginAPI\\Properties"
   ],
-  "SelectedNode": "\\RegisterLoginAPI\\Program.cs",
+  "SelectedNode": "\\RegisterLoginAPI\\Data\\ApplicationDbContext.cs",
   "PreviewInSolutionExplorer": false
 }

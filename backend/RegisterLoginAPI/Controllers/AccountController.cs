@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RegisterLoginAPI.Models;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using BCrypt.Net;
+using Microsoft.Extensions.Configuration;
 
 namespace RegisterLoginAPI.Controllers
 {
@@ -12,11 +14,13 @@ namespace RegisterLoginAPI.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IConfiguration _configuration;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -24,10 +28,26 @@ namespace RegisterLoginAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
+                var hashedPassword = HashPassword(model.Password);
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name, PasswordHash = hashedPassword };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // Lưu vào cơ sở dữ liệu
+                    var connectionString = _configuration.GetConnectionString("DefaultConnection");
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        string query = "INSERT INTO Users (Name, Email, PasswordHash) VALUES (@Name, @Email, @PasswordHash)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@Name", model.Name);
+                            command.Parameters.AddWithValue("@Email", model.Email);
+                            command.Parameters.AddWithValue("@PasswordHash", hashedPassword);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
                     return Ok(new
                     {
                         status = 200,
@@ -46,7 +66,6 @@ namespace RegisterLoginAPI.Controllers
 
         private string HashPassword(string password)
         {
-            // Sử dụng BCrypt để băm mật khẩu
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
 

@@ -5,8 +5,14 @@
     </div>
     <h2>Login</h2>
     <form @submit.prevent="login">
-      <input v-model="email" type="email" placeholder="Email address" required>
-      <input v-model="password" type="password" placeholder="Password" required>
+      <div class="input-wrapper">
+        <label v-if="errors.email" class="error">{{ errors.email }}</label>
+        <input v-model="email" type="email" placeholder="Email address" @input="validateField('email')" :class="{ 'is-invalid': errors.email }">
+      </div>
+      <div class="input-wrapper">
+        <label v-if="errors.password" class="error">{{ errors.password }}</label>
+        <input v-model="password" type="password" placeholder="Password" @input="validateField('password')" :class="{ 'is-invalid': errors.password }">
+      </div>
       <button type="submit">Login</button>
     </form>
     <div class="separator"></div>
@@ -25,12 +31,27 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      errors: {
+        email: '',
+        password: '',
+      }
     }
   },
   methods: {
     async login() {
       const toast = useToast()
+      this.clearErrors()
+
+      this.validateAllFields()
+
+      if (this.password !== this.confirmPassword) {
+        this.errors.confirmPassword = "Passwords do not match"
+      }
+
+      if (this.hasErrors()) {
+        return
+      }
 
       try {
         const response = await axios.post('/account/login', {
@@ -43,9 +64,28 @@ export default {
         toast.error(error.response?.data?.message || "Login failed")
       }
     },
-    // closeForm() {
-    //   // Logic để đóng form login
-    // }
+    clearErrors() {
+      this.errors = {
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      }
+    },
+    hasErrors() {
+      return Object.values(this.errors).some(error => error)
+    },
+    validateField(field) {
+      if (!this[field]) {
+        this.errors[field] = 'Please fill in this field'
+      } else {
+        this.errors[field] = ''
+      }
+    },
+    validateAllFields() {
+      this.validateField('email')
+      this.validateField('password')
+    }
   }
 }
 </script>
@@ -55,7 +95,7 @@ export default {
 .login {
   width: 100%;
   max-width: 310px;
-  margin: 71px auto;
+  margin: 70px auto;
   padding: 2em 2em 1em 2em;
   background: rgba(255, 255, 255, 0.9);
   border-radius: 5px;
@@ -88,15 +128,28 @@ export default {
 }
 
 .login h2 {
-  margin-bottom: 1.5em;
+  margin-bottom: 1em;
   color: #333;
   font-size: 28px;
+}
+
+.input-wrapper {
+  position: relative;
+  text-align: left;
+}
+
+.error {
+  position: absolute;
+  color: red;
+  font-size: 11px;
+  display: block;
+  margin-top: -14px;
 }
 
 .login input {
   width: calc(100% - 25px);
   padding: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 15px;
@@ -107,11 +160,15 @@ export default {
   border-color: #029ba3;
 }
 
+.login input.is-invalid {
+  border-color: red;
+}
+
 .login button {
   width: 100%;
   padding: 12px;
   margin-top: 1em;
-  margin-bottom: 6.6em;
+  margin-bottom: 7.25em;
   border: none;
   border-radius: 2px;
   background: linear-gradient(to bottom right, #0081A7, #00AFB9);

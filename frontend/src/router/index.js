@@ -4,7 +4,7 @@ import Login from '@/components/Login.vue'
 import UserManager from '@/components/UserManager.vue'
 
 const routes = [
-  { path: '/', component: UserManager},
+  { path: '/users', component: UserManager},
   { path: '/register', component: Register },
   { path: '/login', component: Login },
 ]
