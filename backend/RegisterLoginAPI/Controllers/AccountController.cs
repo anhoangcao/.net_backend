@@ -74,18 +74,23 @@ namespace RegisterLoginAPI.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return BadRequest(new { status = 400, message = "Invalid login attempt" });
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
                 if (result.Succeeded)
                 {
-                    var hashedPassword = HashPassword(model.Password);
                     return Ok(new
                     {
                         status = 200,
                         message = "Login successful",
                         data = new
                         {
-                            email = model.Email,
-                            password = hashedPassword
+                            name = user.Name,
+                            email = model.Email
                         }
                     });
                 }
@@ -93,5 +98,28 @@ namespace RegisterLoginAPI.Controllers
             }
             return BadRequest(new { status = 400, message = "Invalid data" });
         }
+
+
+        [HttpPost("check-email")]
+        public async Task<IActionResult> CheckEmail([FromBody] CheckEmailModel model)
+        {
+            if (string.IsNullOrEmpty(model.Email))
+            {
+                return BadRequest(new { status = 400, message = "Email is required" });
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                return Ok(new { exists = true });
+            }
+
+            return Ok(new { exists = false });
+        }
+    }
+
+    public class CheckEmailModel
+    {
+        public string? Email { get; set; }
     }
 }

@@ -12,7 +12,7 @@ axios.defaults.baseURL = 'https://localhost:44345/api'
 const options = {
   // Cấu hình tùy chọn cho Toast
   position: 'bottom-center', // Vị trí hiển thị thông báo
-  timeout: 3000, // Thời gian hiển thị thông báo (ms)
+  timeout: 2000, // Thời gian hiển thị thông báo (ms)
   closeOnClick: true, // Đóng thông báo khi click vào
   pauseOnFocusLoss: true, // Dừng thời gian hiển thị khi mất focus
   pauseOnHover: true, // Dừng thời gian hiển thị khi hover

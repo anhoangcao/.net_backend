@@ -2,27 +2,30 @@
   <div class="container">
     <div class="user-manager">
       <header>
-        <img src="/to.png" alt="User Avatar" class="avatar">
-        <span>Admin</span>
+        <img src="/ava.jpg" alt="User Avatar" class="avatar">
+        <span>{{ userName }}</span>
         <div class="search-container">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="search-icon">
-            <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+            <path
+              d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
           </svg>
           <input type="text" placeholder="Search" v-model="searchQuery" class="search-input">
         </div>
-        <button @click="login" class="login-button">Login</button>
+        <button @click="logout" class="logout-button">Logout</button>
       </header>
       <h2>User Management</h2>
       <div class="actions">
         <button @click="exportToExcel" class="export-add-button">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="excel-icon">
-            <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z" />
+            <path
+              d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z" />
           </svg>
           Export to Excel
         </button>
         <button @click="addNewUser" class="export-add-button">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="add-icon">
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
+            <path
+              d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
           </svg>
           Add New User
         </button>
@@ -43,7 +46,8 @@
           <tr v-if="filteredUsers.length === 0">
             <td colspan="7" class="no-data">Không có dữ liệu</td>
           </tr>
-          <tr v-else v-for="(user, index) in filteredUsers" :key="user.userID" :class="{ 'odd-row': index % 2 === 0, 'even-row': index % 2 !== 0 }">
+          <tr v-else v-for="(user, index) in filteredUsers" :key="user.userID"
+            :class="{ 'odd-row': index % 2 === 0, 'even-row': index % 2 !== 0 }">
             <td>{{ index + 1 + (currentPage - 1) * usersPerPage }}</td>
             <td class="user-name">
               <div class="user-info">
@@ -57,17 +61,20 @@
             <td>
               <button @click="viewUser(user.userID)" class="action-button view-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" />
+                  <path
+                    d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" />
                 </svg>
               </button>
               <button @click="editUser(user.userID)" class="action-button edit-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                  <path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
+                  <path
+                    d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
                 </svg>
               </button>
               <button @click="deleteUser(user.userID)" class="action-button delete-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                  <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+                  <path
+                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
                 </svg>
               </button>
             </td>
@@ -77,23 +84,39 @@
       <div class="pagination">
         <button @click="prevPage" :disabled="currentPage === 1" class="pagination-info">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon-left">
-            <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+            <path
+              d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
           </svg>
           Prev
         </button>
-        <span v-for="page in visiblePages" :key="page" @click="goToPage(page)" :class="{ active: currentPage === page }">{{ page }}</span>
+        <span v-for="page in visiblePages" :key="page" @click="goToPage(page)"
+          :class="{ active: currentPage === page }">{{ page }}</span>
         <button @click="nextPage" :disabled="currentPage >= totalPages" class="pagination-info">
           Next
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon-right">
-            <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+            <path
+              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
           </svg>
         </button>
       </div>
+    </div>
+    <!-- Modal Background -->
+    <div v-if="showUserDetail" class="modal-background"></div>
+      
+    <!-- User Detail Modal -->
+    <div v-if="showUserDetail" class="user-detail-modal">
+      <h3>User Details</h3>
+      <p><strong>Name:</strong> {{ selectedUser.name }}</p>
+      <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+      <p><strong>Update Date:</strong> {{ new Date(selectedUser.updatedAt).toLocaleString() }}</p>
+      <p><strong>Create Date:</strong> {{ new Date(selectedUser.createdAt).toLocaleString() }}</p>
+      <button @click="closeUserDetail" class="close-button">x</button>
     </div>
   </div>
 </template>
 
 <script>
+import * as XLSX from 'xlsx';
 import axios from 'axios';
 
 export default {
@@ -101,112 +124,169 @@ export default {
     return {
       searchQuery: '',
       currentPage: 1,
-      usersPerPage: 5, // Hiển thị 5 dòng mỗi trang
+      usersPerPage: 5,
       users: [],
-      totalPages: 1 // Tổng số trang, mặc định là 1
+      totalPages: 1,
+      userName: localStorage.getItem('userName') || 'Admin',
+      showUserDetail: false,
+      selectedUser: {}
     };
   },
   computed: {
-  filteredUsers() {
-    const filtered = this.users.filter(user =>
-      user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
-    return filtered;
-  },
-  visiblePages() {
-    const pages = [];
-    if (this.totalPages <= 4) {
-      for (let i = 1; i <= this.totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (this.currentPage <= 2) {
-        pages.push(1, 2, '...', this.totalPages);
-      } else if (this.currentPage >= this.totalPages - 1) {
-        pages.push(1, '...', this.totalPages - 1, this.totalPages);
+    filteredUsers() {
+      const filtered = this.users.filter(user =>
+        user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        user.email.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+      return filtered;
+    },
+    visiblePages() {
+      const pages = [];
+      if (this.totalPages <= 4) {
+        for (let i = 1; i <= this.totalPages; i++) {
+          pages.push(i);
+        }
       } else {
-        pages.push(1, '...', this.currentPage, '...', this.totalPages);
+        if (this.currentPage <= 2) {
+          pages.push(1, 2, '...', this.totalPages);
+        } else if (this.currentPage >= this.totalPages - 1) {
+          pages.push(1, '...', this.totalPages - 1, this.totalPages);
+        } else {
+          pages.push(1, '...', this.currentPage, '...', this.totalPages);
+        }
       }
+      return pages;
     }
-    return pages;
-  }
-},
-methods: {
-  async fetchUsers(pageNumber = 1, pageSize = 5) {
-    try {
-      const response = await axios.get(`https://localhost:44345/api/users?pageNumber=${pageNumber}&pageSize=${pageSize}`);
-      if (response.data) {
-        this.users = response.data.users;
-        this.totalPages = response.data.totalPages;
-        this.currentPage = response.data.currentPage;
-      } else {
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('userName');
+      this.userName = 'Admin';
+      this.$router.push('/login');
+    },
+    async fetchUsers(pageNumber = 1, pageSize = 5) {
+      try {
+        const response = await axios.get(`https://localhost:44345/api/users?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+        if (response.data) {
+          this.users = response.data.users;
+          this.totalPages = response.data.totalPages;
+          this.currentPage = response.data.currentPage;
+        } else {
+          this.users = [];
+          this.totalPages = 1;
+        }
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
         this.users = [];
         this.totalPages = 1;
       }
-    } catch (error) {
-      console.error('Failed to fetch users:', error);
-      this.users = [];
-      this.totalPages = 1;
-    }
-  },
-  login() {
-    // Handle login functionality here
-  },
-  exportToExcel() {
-    // Handle export to Excel functionality here
-  },
-  addNewUser() {
-    // Handle adding a new user here
-  },
-  viewUser(userId) {
-    // Handle viewing user details here
-  },
-  editUser(userId) {
-    // Handle editing user details here
-  },
-  async deleteUser(userId) {
-    try {
-      const response = await axios.delete(`https://localhost:44345/api/users/${userId}`);
-      if (response.status === 204) {
-        // Xóa thành công, cập nhật danh sách người dùng
-        this.users = this.users.filter(user => user.userID !== userId);
-        console.log(`User with ID ${userId} deleted successfully.`);
-      } else {
-        console.error(`Failed to delete user with ID ${userId}`);
-      }
-    } catch (error) {
-      console.error('Error deleting user:', error);
-    }
-  },
-  truncatedPassword(password) {
-    return password.length > 15 ? `${password.substring(0, 15)}...` : password;
-  },
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.fetchUsers(this.currentPage, this.usersPerPage);
-    }
-  },
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.fetchUsers(this.currentPage, this.usersPerPage);
-    }
-  },
-  goToPage(page) {
-    if (page === '...') return;
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.fetchUsers(this.currentPage, this.usersPerPage);
-    }
-  }
-},
-mounted() {
-  this.fetchUsers(this.currentPage, this.usersPerPage);
-}
+    },
+    async fetchAllUsers() {
+      let allUsers = [];
+      let pageNumber = 1;
+      let pageSize = 100; 
+      let totalPages = 1;
 
+      try {
+        while (pageNumber <= totalPages) {
+          const response = await axios.get(`https://localhost:44345/api/users?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+          if (response.data) {
+            allUsers = allUsers.concat(response.data.users);
+            totalPages = response.data.totalPages;
+            pageNumber++;
+          } else {
+            break;
+          }
+        }
+        return allUsers;
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
+        return [];
+      }
+    },
+    exportToExcel() {
+      this.fetchAllUsers().then(users => {
+        // Tạo một workbook mới
+        const wb = XLSX.utils.book_new();
+
+        // Chuyển đổi dữ liệu người dùng thành một worksheet
+        const ws = XLSX.utils.json_to_sheet(users.map(user => ({
+          Name: user.name,
+          Email: user.email,
+          Password: this.truncatedPassword(user.passwordHash),
+          'Update Date': new Date(user.updatedAt).toLocaleString(),
+          'Create Date': new Date(user.createdAt).toLocaleString()
+        })));
+
+        // Thêm worksheet vào workbook
+        XLSX.utils.book_append_sheet(wb, ws, 'Users');
+
+        // Xuất file Excel
+        XLSX.writeFile(wb, 'Users.xlsx');
+      }).catch(error => {
+        console.error('Error exporting to Excel:', error);
+      });
+    },
+    addNewUser() {
+      // Handle adding a new user here
+    },
+    viewUser(userId) {
+      this.selectedUser = this.users.find(user => user.userID === userId);
+      this.showUserDetail = true;
+    },
+    closeUserDetail() {
+      this.showUserDetail = false;
+      this.selectedUser = {};
+    },
+    async deleteUser(userId) {
+      const confirmed = confirm('Are you sure you want to delete this user?');
+      if (!confirmed) return;
+
+      try {
+        const response = await axios.delete(`https://localhost:44345/api/users/${userId}`);
+        if (response.status === 204) {
+          // Xóa thành công, cập nhật danh sách người dùng
+          this.users = this.users.filter(user => user.userID !== userId);
+          console.log(`User with ID ${userId} deleted successfully.`);
+        } else {
+          console.error(`Failed to delete user with ID ${userId}`);
+        }
+      } catch (error) {
+        console.error('Error deleting user:', error);
+      }
+    },
+    truncatedPassword(password) {
+      return password.length > 15 ? `${password.substring(0, 15)}...` : password;
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+        this.fetchUsers(this.currentPage, this.usersPerPage);
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+        this.fetchUsers(this.currentPage, this.usersPerPage);
+      }
+    },
+    goToPage(page) {
+      if (page === '...') return;
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+        this.fetchUsers(this.currentPage, this.usersPerPage);
+      }
+    }
+  },
+  mounted() {
+    this.userName = localStorage.getItem('userName') || 'Admin';
+    console.log('User Name:', this.userName);
+    this.fetchUsers(this.currentPage, this.usersPerPage);
+  }
 };
+
+
 </script>
 
 <style scoped>
@@ -214,18 +294,140 @@ mounted() {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(to bottom, #0081A7, #00AFB9);
+  padding: 20px;
 }
 
 .user-manager {
-  width: 1120px;
+  width: 100%;
+  max-width: 1200px;
   border: 1px solid #ccc;
   padding: 40px;
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  position: relative;
 }
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+
+.user-detail-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  max-width: 90%;
+  background-color: #fff;
+  padding: 30px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  z-index: 1000;
+  text-align: left; /* Chỉnh text-align sang left cho gọn gàng hơn */
+}
+
+.user-detail-modal h3 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.user-detail-modal p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.user-detail-modal .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #299BE4;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.user-detail-modal .close-button:hover {
+  background-color: #268fd1;
+}
+
+/* Additional CSS for better visuals */
+.user-detail-modal p strong {
+  color: #000;
+}
+
+.user-detail-modal h3 {
+  border-bottom: 2px solid #299BE4;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 26px;
+  color: #333;
+}
+
+.user-detail-modal p {
+  margin: 12px 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.user-detail-modal p strong {
+  display: inline-block;
+  width: 120px;
+  font-weight: 700;
+}
+
+.user-detail-modal p:last-child {
+  margin-bottom: 0;
+}
+
+.user-detail-modal .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #299BE4;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.user-detail-modal .close-button:hover {
+  background-color: #268fd1;
+}
+
+
+
+
 
 header {
   display: flex;
@@ -271,18 +473,18 @@ header span {
   color: #ccc;
 }
 
-.login-button {
+.logout-button {
   padding: 8px 16px;
   background-color: #299BE4;
   color: #fff;
   border: none;
   border-radius: 2px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
 }
 
-.login-button:hover {
+.logout-button:hover {
   background-color: #268fd1;
 }
 
@@ -318,7 +520,7 @@ header img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 10px;
+  margin-right: 12px;
 }
 
 header span {
@@ -386,13 +588,6 @@ th {
 td {
   border-bottom: 1px solid #ddd;
   font-size: 14px;
-}
-
-.dummy-row {
-  height: 32px;
-  /* Điều chỉnh chiều cao theo chiều cao của các hàng thực tế */
-  background-color: #fff;
-  /* Màu nền giống với màu nền của bảng */
 }
 
 .user-name .user-info {

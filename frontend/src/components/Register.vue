@@ -52,17 +52,17 @@ export default {
   },
   methods: {
     async register() {
-      const toast = useToast()
-      this.clearErrors()
+      const toast = useToast();
+      this.clearErrors();
 
-      this.validateAllFields()
+      this.validateAllFields();
 
       if (this.password !== this.confirmPassword) {
-        this.errors.confirmPassword = "Passwords do not match"
+        this.errors.confirmPassword = "Passwords do not match";
       }
 
       if (this.hasErrors()) {
-        return
+        return;
       }
 
       try {
@@ -70,14 +70,22 @@ export default {
           name: this.name,
           email: this.email,
           password: this.password
-        })
-        toast.success("Registration successful")
+        });
+        toast.success("Registration successful");
+
+        localStorage.setItem('userToken', response.data.token);
+        localStorage.setItem('userName', response.data.data.name); 
+        
+        setTimeout(() => {
+          this.$router.push('/login');
+        }, 2000);
       } catch (error) {
-        console.error('Registration error:', error.response)
-        const errorMessage = error.response?.data?.message || "Registration failed"
-        toast.error(errorMessage)
+        console.error('Registration error:', error.response);
+        const errorMessage = error.response?.data?.message || "Registration failed";
+        toast.error(errorMessage);
       }
     },
+
     clearErrors() {
       this.errors = {
         name: '',
@@ -89,9 +97,25 @@ export default {
     hasErrors() {
       return Object.values(this.errors).some(error => error)
     },
-    validateField(field) {
+    async validateField(field) {
       if (!this[field]) {
         this.errors[field] = 'Please fill in this field'
+      } else if (field === 'email' && !this.isValidEmail(this.email)) {
+        this.errors[field] = 'Invalid email format'
+      } else if (field === 'email') {
+        try {
+          const response =  await axios.post('/account/check-email', {
+            email: this.email
+          })
+          if (response.data.exists) {
+            this.errors[field] = 'Email already exists'
+          } else {
+            this.errors[field] = ''
+          }
+        } catch (error) {
+          console.error('Email validation error:', error)
+          this.errors[field] = 'Error validating email'
+        }
       } else {
         this.errors[field] = ''
       }
@@ -101,6 +125,10 @@ export default {
       this.validateField('email')
       this.validateField('password')
       this.validateField('confirmPassword')
+    },
+    isValidEmail(email) {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i
+      return re.test(String(email).toLowerCase())
     }
   }
 }
