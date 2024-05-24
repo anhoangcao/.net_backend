@@ -98,8 +98,6 @@ namespace RegisterLoginAPI.Controllers
             }
             return BadRequest(new { status = 400, message = "Invalid data" });
         }
-
-
         [HttpPost("check-email")]
         public async Task<IActionResult> CheckEmail([FromBody] CheckEmailModel model)
         {
@@ -117,7 +115,6 @@ namespace RegisterLoginAPI.Controllers
             return Ok(new { exists = false });
         }
     }
-
     public class CheckEmailModel
     {
         public string? Email { get; set; }

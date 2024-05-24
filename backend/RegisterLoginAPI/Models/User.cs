@@ -21,10 +21,8 @@ namespace RegisterLoginAPI.Models
         [MaxLength(255)]
         public string PasswordHash { get; set; } = string.Empty;
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

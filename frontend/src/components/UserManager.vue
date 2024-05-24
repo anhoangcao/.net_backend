@@ -13,7 +13,7 @@
         </div>
         <button @click="logout" class="logout-button">Logout</button>
       </header>
-      <h2>User Management</h2>
+      <h2 class="h2-user">User Management</h2>
       <div class="actions">
         <button @click="exportToExcel" class="export-add-button">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="excel-icon">
@@ -22,7 +22,7 @@
           </svg>
           Export to Excel
         </button>
-        <button @click="addNewUser" class="export-add-button">
+        <button @click="openAddUserModal" class="export-add-button">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="add-icon">
             <path
               d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
@@ -59,13 +59,13 @@
             <td>{{ new Date(user.updatedAt).toLocaleString() }}</td>
             <td>{{ new Date(user.createdAt).toLocaleString() }}</td>
             <td>
-              <button @click="viewUser(user.userID)" class="action-button view-icon">
+              <button @click="viewUser(index)" class="action-button view-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                   <path
                     d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" />
                 </svg>
               </button>
-              <button @click="editUser(user.userID)" class="action-button edit-icon">
+              <button @click="editUser(user.userID, index)" class="action-button edit-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                   <path
                     d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
@@ -81,11 +81,11 @@
           </tr>
         </tbody>
       </table>
-      <div class="pagination">
+      <div class="pagination" v-if="filteredUsers.length > 0">
         <button @click="prevPage" :disabled="currentPage === 1" class="pagination-info">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon-left">
             <path
-              d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+              d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5 0-45.3l-192 192z" />
           </svg>
           Prev
         </button>
@@ -100,24 +100,65 @@
         </button>
       </div>
     </div>
+
     <!-- Modal Background -->
     <div v-if="showUserDetail" class="modal-background"></div>
-      
+
     <!-- User Detail Modal -->
     <div v-if="showUserDetail" class="user-detail-modal">
       <h3>User Details</h3>
+      <p><strong>STT:</strong> {{ selectedIndex + 1 + (currentPage - 1) * usersPerPage }}</p>
       <p><strong>Name:</strong> {{ selectedUser.name }}</p>
       <p><strong>Email:</strong> {{ selectedUser.email }}</p>
       <p><strong>Update Date:</strong> {{ new Date(selectedUser.updatedAt).toLocaleString() }}</p>
       <p><strong>Create Date:</strong> {{ new Date(selectedUser.createdAt).toLocaleString() }}</p>
       <button @click="closeUserDetail" class="close-button">x</button>
     </div>
+    <!-- User Detail Modal -->
+
+    <!-- Modal edit người dùng -->
+    <div v-if="showUserDetail" class="user-detail-modal">
+      <h3>{{ isEditing ? 'Edit User' : 'User Details' }}</h3>
+      <p><strong>STT:</strong> {{ selectedIndex + 1 + (currentPage - 1) * usersPerPage }}</p>
+      <p><strong>Name:</strong>
+        <input v-if="isEditing" v-model="selectedUser.name" type="text" />
+        <span v-else>{{ selectedUser.name }}</span>
+      </p>
+      <p><strong>Email:</strong>
+        <input v-if="isEditing" v-model="selectedUser.email" type="email" />
+        <span v-else>{{ selectedUser.email }}</span>
+      </p>
+      <p><strong>Update Date:</strong> {{ new Date(selectedUser.updatedAt).toLocaleString() }}</p>
+      <p><strong>Create Date:</strong> {{ new Date(selectedUser.createdAt).toLocaleString() }}</p>
+      <div v-if="isEditing" class="modal-actions">
+        <button @click="saveUser" class="save-button">Save</button>
+        <button @click="closeUserDetail" class="close-button">x</button>
+      </div>
+      <button v-else @click="closeUserDetail" class="close-button">x</button>
+    </div>
+    <!-- Modal edit người dùng -->
+
+    <!-- Modal thêm người dùng mới -->
+    <div v-if="showAddUserModal" class="modal-background"></div>
+    <div v-if="showAddUserModal" class="user-detail-modal">
+      <h3>Add New User</h3>
+      <p><strong>Name:</strong> <input v-model="newUser.name" type="text" /></p>
+      <p><strong>Email:</strong> <input v-model="newUser.email" type="email" /></p>
+      <p><strong>Password:</strong> <input v-model="newUser.password" type="password" /></p>
+      <div class="modal-actions">
+        <button @click="saveNewUser" class="save-button">Save</button>
+        <button @click="closeAddUserModal" class="close-button">x</button>
+      </div>
+    </div>
+    <!-- Modal thêm người dùng mới -->
+
   </div>
 </template>
 
 <script>
 import * as XLSX from 'xlsx';
 import axios from 'axios';
+import bcrypt from 'bcryptjs';
 
 export default {
   data() {
@@ -129,7 +170,11 @@ export default {
       totalPages: 1,
       userName: localStorage.getItem('userName') || 'Admin',
       showUserDetail: false,
-      selectedUser: {}
+      showAddUserModal: false,
+      selectedUser: {},
+      selectedIndex: 0,
+      isEditing: false,
+      newUser: { name: '', email: '', password: '' }
     };
   },
   computed: {
@@ -185,7 +230,7 @@ export default {
     async fetchAllUsers() {
       let allUsers = [];
       let pageNumber = 1;
-      let pageSize = 100; 
+      let pageSize = 100;
       let totalPages = 1;
 
       try {
@@ -207,11 +252,14 @@ export default {
     },
     exportToExcel() {
       this.fetchAllUsers().then(users => {
-        // Tạo một workbook mới
-        const wb = XLSX.utils.book_new();
+        console.log('Fetched Users:', users);
 
-        // Chuyển đổi dữ liệu người dùng thành một worksheet
-        const ws = XLSX.utils.json_to_sheet(users.map(user => ({
+        const currentPage = 1;
+        const usersPerPage = 100;
+
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(users.map((user, index) => ({
+          STT: index + 1 + (currentPage - 1) * usersPerPage,
           Name: user.name,
           Email: user.email,
           Password: this.truncatedPassword(user.passwordHash),
@@ -219,25 +267,67 @@ export default {
           'Create Date': new Date(user.createdAt).toLocaleString()
         })));
 
-        // Thêm worksheet vào workbook
         XLSX.utils.book_append_sheet(wb, ws, 'Users');
-
-        // Xuất file Excel
         XLSX.writeFile(wb, 'Users.xlsx');
       }).catch(error => {
         console.error('Error exporting to Excel:', error);
       });
     },
-    addNewUser() {
-      // Handle adding a new user here
+    openAddUserModal() {
+      this.showAddUserModal = true;
     },
-    viewUser(userId) {
-      this.selectedUser = this.users.find(user => user.userID === userId);
+    closeAddUserModal() {
+      this.showAddUserModal = false;
+      this.newUser = { name: '', email: '', password: '' };
+    },
+    async saveNewUser() {
+      try {
+        const hashedPassword = await bcrypt.hash(this.newUser.password, 10);
+        const response = await axios.post(`https://localhost:44345/api/users`, {
+          name: this.newUser.name,
+          email: this.newUser.email,
+          passwordHash: hashedPassword
+        });
+        if (response.status === 201) {
+          this.fetchUsers(this.currentPage, this.usersPerPage);
+          this.closeAddUserModal();
+        } else {
+          console.error('Failed to add new user');
+        }
+      } catch (error) {
+        console.error('Error adding new user:', error.response ? error.response.data : error.message);
+      }
+    },
+    viewUser(index) {
+      this.selectedUser = this.filteredUsers[index];
+      this.selectedIndex = index;
       this.showUserDetail = true;
     },
     closeUserDetail() {
       this.showUserDetail = false;
       this.selectedUser = {};
+      this.isEditing = false;
+      this.selectedIndex = 0;
+    },
+    editUser(userId, index) {
+      this.selectedUser = this.users.find(user => user.userID === userId);
+      this.selectedIndex = index;
+      this.showUserDetail = true;
+      this.isEditing = true;
+    },
+    async saveUser() {
+      try {
+        this.selectedUser.updatedAt = new Date().toISOString();
+        const response = await axios.put(`https://localhost:44345/api/users/${this.selectedUser.userID}`, this.selectedUser);
+        if (response.status === 200) {
+          this.fetchUsers(this.currentPage, this.usersPerPage);
+          this.closeUserDetail();
+        } else {
+          console.error(`Failed to update user with ID ${this.selectedUser.userID}`);
+        }
+      } catch (error) {
+        console.error('Error saving user:', error);
+      }
     },
     async deleteUser(userId) {
       const confirmed = confirm('Are you sure you want to delete this user?');
@@ -246,7 +336,6 @@ export default {
       try {
         const response = await axios.delete(`https://localhost:44345/api/users/${userId}`);
         if (response.status === 204) {
-          // Xóa thành công, cập nhật danh sách người dùng
           this.users = this.users.filter(user => user.userID !== userId);
           console.log(`User with ID ${userId} deleted successfully.`);
         } else {
@@ -257,22 +346,22 @@ export default {
       }
     },
     truncatedPassword(password) {
-      return password.length > 15 ? `${password.substring(0, 15)}...` : password;
+      return password.length > 20 ? `${password.substring(0, 20)}...` : password;
     },
     prevPage() {
-      if (this.currentPage > 1) {
+      if (this.currentPage > 1 && this.filteredUsers.length > 0) {
         this.currentPage--;
         this.fetchUsers(this.currentPage, this.usersPerPage);
       }
     },
     nextPage() {
-      if (this.currentPage < this.totalPages) {
+      if (this.currentPage < this.totalPages && this.filteredUsers.length > 0) {
         this.currentPage++;
         this.fetchUsers(this.currentPage, this.usersPerPage);
       }
     },
     goToPage(page) {
-      if (page === '...') return;
+      if (page === '...' || this.filteredUsers.length === 0) return;
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page;
         this.fetchUsers(this.currentPage, this.usersPerPage);
@@ -285,447 +374,6 @@ export default {
     this.fetchUsers(this.currentPage, this.usersPerPage);
   }
 };
-
-
 </script>
 
-<style scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(to bottom, #0081A7, #00AFB9);
-  padding: 20px;
-}
-
-.user-manager {
-  width: 100%;
-  max-width: 1200px;
-  border: 1px solid #ccc;
-  padding: 40px;
-  background-color: #fff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  position: relative;
-}
-
-.modal-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 999;
-}
-
-.user-detail-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px;
-  max-width: 90%;
-  background-color: #fff;
-  padding: 30px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-  border-radius: 12px;
-  z-index: 1000;
-  text-align: left; /* Chỉnh text-align sang left cho gọn gàng hơn */
-}
-
-.user-detail-modal h3 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
-
-.user-detail-modal p {
-  margin: 10px 0;
-  font-size: 16px;
-  color: #555;
-}
-
-.user-detail-modal .close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #299BE4;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.user-detail-modal .close-button:hover {
-  background-color: #268fd1;
-}
-
-/* Additional CSS for better visuals */
-.user-detail-modal p strong {
-  color: #000;
-}
-
-.user-detail-modal h3 {
-  border-bottom: 2px solid #299BE4;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 26px;
-  color: #333;
-}
-
-.user-detail-modal p {
-  margin: 12px 0;
-  font-size: 18px;
-  line-height: 1.6;
-  color: #444;
-}
-
-.user-detail-modal p strong {
-  display: inline-block;
-  width: 120px;
-  font-weight: 700;
-}
-
-.user-detail-modal p:last-child {
-  margin-bottom: 0;
-}
-
-.user-detail-modal .close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #299BE4;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 18px;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.user-detail-modal .close-button:hover {
-  background-color: #268fd1;
-}
-
-
-
-
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  position: relative;
-}
-
-header span {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.search-container {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 300px;
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 30px;
-  padding: 8px 12px;
-}
-
-.search-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  fill: #545454;
-}
-
-.search-input {
-  width: 100%;
-  border: none;
-  outline: none;
-  padding-left: 5px;
-  border-radius: 20px;
-}
-
-.search-input::placeholder {
-  color: #ccc;
-}
-
-.logout-button {
-  padding: 8px 16px;
-  background-color: #299BE4;
-  color: #fff;
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.logout-button:hover {
-  background-color: #268fd1;
-}
-
-.excel-icon {
-  width: 15px;
-  height: 15px;
-  margin-right: 5px;
-  fill: #566787;
-}
-
-.add-icon {
-  width: 15px;
-  height: 15px;
-  margin-right: 5px;
-  fill: #566787;
-}
-
-.export-add-button {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  color: #566787;
-  border: none;
-  padding: 4px 10px;
-  margin: -48px 0 17px 20px;
-  cursor: pointer;
-  border-radius: 2px;
-  font-weight: 600;
-  font-size: 12px;
-}
-
-header img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 12px;
-}
-
-header span {
-  font-size: 18px;
-  font-weight: bold;
-  margin-right: auto;
-}
-
-header input {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-h2 {
-  margin: 6px -41px 6px -41px;
-  padding: 12px 0 12px 40px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #fff;
-  background-color: #299BE4;
-}
-
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 10px;
-}
-
-.actions button {
-  background-color: #fff;
-  color: #566787;
-  border: none;
-  padding: 4px 10px;
-  margin: -48px 0 17px 20px;
-  cursor: pointer;
-  border-radius: 2px;
-  font-weight: 600;
-  font-size: 12px;
-}
-
-.actions button:hover {
-  background-color: #f4f4f4;
-  transition: background 0.2s ease-in-out;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-th,
-td {
-  padding: 8px;
-  text-align: left;
-}
-
-th {
-  background-color: #fff;
-  border-top: 1px solid #ddd;
-  border-bottom: 2px solid #ddd;
-}
-
-td {
-  border-bottom: 1px solid #ddd;
-  font-size: 14px;
-}
-
-.user-name .user-info {
-  display: flex;
-  align-items: center;
-}
-
-.user-name .avatar-small {
-  margin-right: 10px;
-}
-
-td button.action-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-td button.action-button:hover {
-  opacity: 0.7;
-}
-
-.action-button svg {
-  width: 20px;
-  height: 20px;
-  fill: #299BE4;
-  /* Màu xanh dương */
-}
-
-.action-button.view-icon svg {
-  fill: #17a2b8;
-  /* Màu xanh lơ */
-}
-
-.action-button.edit-icon svg {
-  fill: #ffc107;
-  /* Màu vàng */
-}
-
-.action-button.delete-icon svg {
-  fill: #dc3545;
-  /* Màu đỏ */
-}
-
-.odd-row td {
-  background-color: #fcfcfc;
-}
-
-.even-row td {
-  background-color: #fff;
-}
-
-.user-name {
-  color: #566787;
-}
-
-td img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-
-td button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-}
-
-td button:hover {
-  opacity: 0.7;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.pagination-info {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-}
-
-.pagination-info svg {
-  width: 15px;
-  height: 15px;
-  fill: white;
-}
-
-.icon-left {
-  margin-right: 15px;
-}
-
-.icon-right {
-  margin-left: 15px;
-}
-
-.pagination button {
-  margin: 0 5px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 10px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.pagination button:disabled {
-  background-color: #ccc;
-}
-
-.pagination span {
-  margin: 0 5px;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-}
-
-.pagination .active {
-  font-weight: bold;
-  background-color: #dadcdd;
-  color: rgb(0, 0, 0);
-}
-
-.pagination span:hover:not(.active) {
-  background-color: #f0f0f0;
-}
-
-.no-data {
-  text-align: center;
-  font-weight: bold;
-  color: #ff0000;
-  /* màu đỏ */
-}
-</style>
+<style src="@/assets/style.css"></style>

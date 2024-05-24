@@ -16,3 +16,777 @@ html, body {
 body {
     background: linear-gradient(to bottom, #0081A7, #00AFB9);
 }
+
+
+/* CSS cho register */
+.register {
+  width: 100%;
+  max-width: 310px;
+  margin: 70px auto;
+  padding: 2em 2em 1em 2em;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.register .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  text-align: center;
+  line-height: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.register .close-button:hover {
+  background-color: #e0e0e0;
+}
+
+.register h2 {
+  margin-bottom: 1em;
+  color: #333;
+  font-size: 28px;
+}
+
+.input-wrapper {
+  position: relative;
+  text-align: left;
+}
+
+.error {
+  position: absolute;
+  color: red;
+  font-size: 11px;
+  display: block;
+  margin-top: -14px;
+}
+
+.register input {
+  width: calc(100% - 25px);
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.register input:focus {
+  outline: none;
+  border-color: #029ba3;
+}
+
+.register input.is-invalid {
+  border-color: red;
+}
+
+.register button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 1em;
+  border: none;
+  border-radius: 2px;
+  background: linear-gradient(to bottom right, #0081A7, #00AFB9);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.register button:hover {
+  background: linear-gradient(to bottom right, #007099, #0098A6);
+}
+
+.separator {
+  margin-top: 2em;
+  color: #333;
+  position: relative;
+}
+
+.separator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  right: -10%;
+  border-top: 1px solid #ddd;
+  z-index: 1;
+  max-width: 372px;
+}
+
+.login-prompt {
+  padding-top: 1.5em;
+  font-size: 14px;
+  color: #333;
+}
+
+.login-prompt a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-prompt a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .register {
+    padding: 1.5em;
+  }
+  .register h2 {
+    font-size: 20px;
+  }
+  .register input,
+  .register button {
+    font-size: 14px;
+  }
+}
+/* CSS cho register */
+
+/* CSS cho login */
+.login {
+  width: 100%;
+  max-width: 310px;
+  margin: 70px auto;
+  padding: 2em 2em 1em 2em;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.login .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  text-align: center;
+  line-height: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.login .close-button:hover {
+  background-color: #e0e0e0;
+}
+
+.login h2 {
+  margin-bottom: 1em;
+  color: #333;
+  font-size: 28px;
+}
+
+.input-wrapper {
+  position: relative;
+  text-align: left;
+}
+
+.error {
+  position: absolute;
+  color: red;
+  font-size: 11px;
+  display: block;
+  margin-top: -14px;
+}
+
+.login input {
+  width: calc(100% - 25px);
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+.login input:focus {
+  outline: none;
+  border-color: #029ba3;
+}
+
+.login input.is-invalid {
+  border-color: red;
+}
+
+.login button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 1em;
+  margin-bottom: 7.25em;
+  border: none;
+  border-radius: 2px;
+  background: linear-gradient(to bottom right, #0081A7, #00AFB9);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.login button:hover {
+  background: linear-gradient(to bottom right, #007099, #0098A6);
+}
+
+.register-prompt {
+  padding-top: 1.5em;
+  font-size: 14px;
+  color: #333;
+}
+
+.register-prompt a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-prompt a:hover {
+  text-decoration: underline;
+}
+
+.separator {
+  margin-top: 2em;
+  color: #333;
+  position: relative;
+}
+
+.separator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  right: -10%;
+  border-top: 1px solid #ddd;
+  z-index: 1;
+  max-width: 372px;
+}
+
+@media (max-width: 600px) {
+  .login {
+    padding: 1.5em;
+  }
+  .login h2 {
+    font-size: 20px;
+  }
+  .login input,
+  .login button {
+    font-size: 14px;
+  }
+  .separator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -24px;
+    right: -10%;
+    border-top: 1px solid #ddd;
+    z-index: 1;
+    max-width: 358px;
+  }
+}
+/* CSS cho login */
+
+/* CSS cho user-manager */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 94vh;
+  background: linear-gradient(to bottom, #0081A7, #00AFB9);
+  padding: 20px;
+}
+
+.user-manager {
+  width: 100%;
+  max-width: 1111px;
+  border: 1px solid #ccc;
+  padding: 40px;
+  background-color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  position: relative;
+}
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(82, 81, 81, 0.7);
+  z-index: 999;
+}
+
+/* CSS cho modal view */
+.user-detail-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  max-width: 90%;
+  background-color: #fff;
+  padding: 30px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  z-index: 1000;
+  text-align: left; /* Chỉnh text-align sang left cho gọn gàng hơn */
+}
+
+.user-detail-modal h3 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.user-detail-modal p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.user-detail-modal .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #299BE4;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.user-detail-modal .close-button:hover {
+  background-color: #268fd1;
+}
+
+/* Additional CSS for better visuals */
+.user-detail-modal p strong {
+  color: #000;
+}
+
+.user-detail-modal h3 {
+  border-bottom: 2px solid #299BE4;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 26px;
+  color: #333;
+}
+
+.user-detail-modal p {
+  margin: 12px 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.user-detail-modal p strong {
+  display: inline-block;
+  width: 120px;
+  font-weight: 700;
+}
+
+.user-detail-modal p:last-child {
+  margin-bottom: 0;
+}
+
+.user-detail-modal .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #299BE4;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.user-detail-modal .close-button:hover {
+  background-color: #268fd1;
+}
+/* CSS cho modal view */
+
+
+/* CSS cho modal edit */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.save-button, .cancel-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.save-button {
+  background-color: #299BE4;
+  color: #fff;
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: #333;
+}
+
+.save-button:hover {
+  background-color: #268fd1;
+}
+
+.cancel-button:hover {
+  background-color: #b3b3b3;
+}
+
+.user-detail-modal input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+/* CSS cho modal edit */
+
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+header span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.search-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding: 8px 12px;
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  fill: #545454;
+}
+
+.search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding-left: 5px;
+  border-radius: 20px;
+}
+
+.search-input::placeholder {
+  color: #ccc;
+}
+
+.logout-button {
+  padding: 8px 16px;
+  background-color: #299BE4;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.logout-button:hover {
+  background-color: #268fd1;
+}
+
+.excel-icon {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  fill: #566787;
+}
+
+.add-icon {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+  fill: #566787;
+}
+
+.export-add-button {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  color: #566787;
+  border: none;
+  padding: 4px 10px;
+  margin: -48px 0 17px 20px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+header img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+header span {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: auto;
+}
+
+header input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.h2-user {
+  margin: 6px -41px 6px -41px;
+  padding: 12px 0 12px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #299BE4;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.actions button {
+  background-color: #fff;
+  color: #566787;
+  border: none;
+  padding: 4px 10px;
+  margin: -48px 0 17px 20px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.actions button:hover {
+  background-color: #f4f4f4;
+  transition: background 0.2s ease-in-out;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  border-bottom: 2px solid #ddd;
+}
+
+td {
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.user-name .user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-name .avatar-small {
+  margin-right: 10px;
+}
+
+td button.action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+td button.action-button:hover {
+  opacity: 0.7;
+}
+
+.action-button svg {
+  width: 20px;
+  height: 20px;
+  fill: #299BE4;
+  /* Màu xanh dương */
+}
+
+.action-button.view-icon svg {
+  fill: #17a2b8;
+  /* Màu xanh lơ */
+}
+
+.action-button.edit-icon svg {
+  fill: #ffc107;
+  /* Màu vàng */
+}
+
+.action-button.delete-icon svg {
+  fill: #dc3545;
+  /* Màu đỏ */
+}
+
+.odd-row td {
+  background-color: #fcfcfc;
+}
+
+.even-row td {
+  background-color: #fff;
+}
+
+.user-name {
+  color: #566787;
+}
+
+td img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+td button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+td button:hover {
+  opacity: 0.7;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-info {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.pagination-info svg {
+  width: 15px;
+  height: 15px;
+  fill: white;
+}
+
+.icon-left {
+  margin-right: 15px;
+}
+
+.icon-right {
+  margin-left: 15px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+}
+
+.pagination span {
+  margin: 0 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.pagination .active {
+  font-weight: bold;
+  background-color: #dadcdd;
+  color: rgb(0, 0, 0);
+}
+
+.pagination span:hover:not(.active) {
+  background-color: #f0f0f0;
+}
+
+.no-data {
+  text-align: center;
+  font-weight: bold;
+  color: #ff0000;
+  /* màu đỏ */
+}
+/* CSS cho user-manager */

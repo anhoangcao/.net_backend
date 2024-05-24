@@ -4,24 +4,12 @@ GO
 USE RegisterLoginDB;
 GO
 
-CREATE TABLE Roles (
-    RoleID INT PRIMARY KEY IDENTITY(1,1),
-    RoleName NVARCHAR(50) NOT NULL
-);
-GO
-
--- Thêm một số vai trò mặc định
-INSERT INTO Roles (RoleName) VALUES ('Admin'), ('Publisher'), ('Reviewer'), ('Moderator');
-GO
-SELECT * FROM Roles
-
 
 CREATE TABLE Users (
     UserID INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(100) NOT NULL,
     Email NVARCHAR(100) NOT NULL UNIQUE,
     PasswordHash NVARCHAR(255) NOT NULL,
-    RoleID INT FOREIGN KEY REFERENCES Roles(RoleID),
 	UpdatedAt DATETIME DEFAULT GETDATE(),
 	CreatedAt DATETIME DEFAULT GETDATE()
 );

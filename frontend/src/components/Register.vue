@@ -134,7 +134,10 @@ export default {
 }
 </script>
 
-<style>
+<style src="@/assets/style.css"></style>
+
+
+<!-- <style>
 .register {
   width: 100%;
   max-width: 310px;
@@ -270,4 +273,4 @@ export default {
     font-size: 14px;
   }
 }
-</style>
+</style> -->
